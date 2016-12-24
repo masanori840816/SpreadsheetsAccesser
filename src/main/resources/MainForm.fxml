@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane maxHeight="768" maxWidth="1024" minHeight="768" minWidth="1024" prefHeight="768" prefWidth="1024" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainCtrl">
+    <Tab fx:id="mainTab" text="Main">
+        <AnchorPane fx:id="mainPane" maxHeight="708" maxWidth="1024" minHeight="708" minWidth="1024" prefHeight="708" prefWidth="1024">
+            <TextField fx:id="idSheetPathField" layoutX="57.0" layoutY="35.0" prefHeight="51.0" prefWidth="760.0" />
+            <Button fx:id="searchIdSheetButton" layoutX="884.0" layoutY="35.0" mnemonicParsing="false" onAction="#onSearchIdSheetButtonClicked" text="参照" />
+            <TextField fx:id="docTitleField" layoutX="57.0" layoutY="160.0" prefHeight="51.0" prefWidth="760.0" />
+            <ComboBox fx:id="docTypeCombobox" layoutX="57.0" layoutY="276.0" onAction="#onDocTypeComboboxSelected" prefWidth="150.0" />
+            <TextField fx:id="outputSheetPathField" layoutX="57.0" layoutY="389.0" prefHeight="51.0" prefWidth="760.0" />
+            <Button fx:id="searchOutputSheetButton" layoutX="878.0" layoutY="389.0" mnemonicParsing="false" onAction="#onSearchOutputSheetButtonClicked" text="参照" />
+            <Button fx:id="createDocButton" layoutX="765.0" layoutY="601.0" mnemonicParsing="false" onAction="#onCreateDocButtonClicked" text="生成" />
+        </AnchorPane>
+    </Tab>
+    <Tab fx:id="sheet1Tab" text="Sheet1">
+        <AnchorPane maxHeight="708" maxWidth="1024" minHeight="708" minWidth="1024" prefHeight="708" prefWidth="1024">
+            <TextArea fx:id="sheet1InputTextArea" layoutX="56.0" layoutY="59.0" prefHeight="200.0" prefWidth="900.0" />
+        </AnchorPane>
+    </Tab>
+    <Tab fx:id="sheet2Tab" text="Sheet2">
+        <AnchorPane maxHeight="708" maxWidth="1024" minHeight="708" minWidth="1024" prefHeight="708" prefWidth="1024">
+            <TextArea fx:id="sheet2InputTextArea" layoutX="56.0" layoutY="59.0" prefHeight="200.0" prefWidth="900.0" />
+        </AnchorPane>
+    </Tab>
+
+</TabPane>
