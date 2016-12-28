@@ -9,6 +9,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -28,8 +29,8 @@ public class MainCtrl implements Initializable {
     @FXML private TextField docTitleField;
     @FXML private Tab sheet1Tab;
     @FXML private Tab sheet2Tab;
-    @FXML private TextField sheet1InputTextArea;
-    @FXML private TextField sheet2InputTextArea;
+    @FXML private TextArea sheet1InputTextArea;
+    @FXML private TextArea sheet2InputTextArea;
 
     private FileChooser fileChooser;
 
@@ -55,9 +56,9 @@ public class MainCtrl implements Initializable {
     public void onCreateDocButtonClicked(){
         // 必須項目が空ならそのまま.
         if(idSheetPathField.getText().isEmpty()
-                || docTitleField.getText().isEmpty()
+        /*        || docTitleField.getText().isEmpty()
                 || outputSheetPathField.getText().isEmpty()
-                || docTypeCombobox.getSelectionModel().getSelectedIndex() < 0){
+                || docTypeCombobox.getSelectionModel().getSelectedIndex() < 0*/){
             return;
         }
 
