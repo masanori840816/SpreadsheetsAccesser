@@ -56,8 +56,8 @@ public class MainCtrl implements Initializable {
     public void onCreateDocButtonClicked(){
         // 必須項目が空ならそのまま.
         if(idSheetPathField.getText().isEmpty()
-        /*        || docTitleField.getText().isEmpty()
-                || outputSheetPathField.getText().isEmpty()
+                || docTitleField.getText().isEmpty()
+        /*        || outputSheetPathField.getText().isEmpty()
                 || docTypeCombobox.getSelectionModel().getSelectedIndex() < 0*/){
             return;
         }
