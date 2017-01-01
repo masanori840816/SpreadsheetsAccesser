@@ -1,33 +1,31 @@
 import com.sun.istack.internal.NotNull;
 import io.reactivex.Observable;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellAddress;
-import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Name;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Created by masanori on 2016/12/24.
  * Get lagest ID number from spreadsheet. and add new ID to the spreadsheet.
  */
-public class IdManager {
-    private final static String CellNameId = "ID";
-    private final static String CellNameTitle = "TITLE";
-    private final static String CellNameLastUpdateDate = "LASTUPDATEDATE";
+class IdManager {
 
     private CellValueGetter cellValueGetter;
 
-    public IdManager(){
+    IdManager(){
         cellValueGetter = new CellValueGetter();
     }
-
-    public Observable<Integer> addNewId(@NotNull String title, @NotNull String filePath){
+    Observable<Integer> generateNewId(@NotNull String title, @NotNull String filePath){
         return Observable.create(observer -> {
             File targetFile = new File(filePath);
             if(! targetFile.exists()
@@ -47,9 +45,9 @@ public class IdManager {
             }
             List<Name> allCellNameList = cellValueGetter.getTargetCellValueList(workbook, sheet.getSheetName());
 
-            int idColumnNum = cellValueGetter.getTargetCellColumnNum(allCellNameList, CellNameId);
-            int titleColumnNum = cellValueGetter.getTargetCellColumnNum(allCellNameList, CellNameTitle);
-            int lastUpdateDateColumnNum = cellValueGetter.getTargetCellColumnNum(allCellNameList, CellNameLastUpdateDate);
+            int idColumnNum = cellValueGetter.getTargetCellColumnNum(allCellNameList, "ID");
+            int titleColumnNum = cellValueGetter.getTargetCellColumnNum(allCellNameList, "TITLE");
+            int lastUpdateDateColumnNum = cellValueGetter.getTargetCellColumnNum(allCellNameList, "LASTUPDATEDATE");
 
             int lastRowNum = sheet.getLastRowNum();
             int newId = 1;
@@ -62,25 +60,28 @@ public class IdManager {
                     newId = (int)lastId + 1;
                 }
             }
-            else{
+            else {
                 // IDが未登録の場合は1を付与する.
                 newId = 1;
             }
-
             Row newRow = sheet.createRow(lastRowNum + 1);
 
-            if(newRow != null){
+            if(newRow == null){
+                observer.onError(new Throwable("行の追加に失敗しました。"));
+            }
+            else{
                 newRow.createCell(idColumnNum).setCellValue(newId);
                 newRow.createCell(titleColumnNum).setCellValue(title);
 
+                LocalDate currentDate = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                newRow.createCell(lastUpdateDateColumnNum).setCellValue(currentDate.format(formatter));
 
                 FileOutputStream outputStream = new FileOutputStream(filePath);
 
                 workbook.write(outputStream);
                 outputStream.close();
             }
-            System.out.println("last "+ sheet.getRow(lastRowNum).getCell(idColumnNum));
-
             workbook.close();
             fileStream.close();
             // 発行したIDを返す.
