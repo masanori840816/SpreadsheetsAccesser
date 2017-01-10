@@ -51,7 +51,6 @@ class UserInputTextSetter {
                         int index = cellValueGetter.getTargetCellColumnNum(allCellNameList,targetCell.getCellName());
                         newRow.createCell(index).setCellValue(targetCell.getCellValue());
                     }
-
                 }
                 else{
                     // SheetのIndex取得.
@@ -60,6 +59,7 @@ class UserInputTextSetter {
                     workbook.setSheetHidden(indexNum, true);
                 }
             }
+            // Workbookの保存は全てのSheetへの変更が完了後に行う.
             FileOutputStream outputStream = new FileOutputStream(filePath);
 
             workbook.write(outputStream);
